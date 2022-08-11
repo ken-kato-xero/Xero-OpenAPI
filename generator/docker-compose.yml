@@ -1,0 +1,27 @@
+version: '3'
+services:
+  openapi-generator-server-payroll-au:
+    image: openapitools/openapi-generator-cli
+    volumes:
+      - ../:/local
+    command: generate -g aspnetcore -i local/xero-payroll-au.yaml -o local/generator/payroll-au-server
+
+  openapi-generator-client-payroll-au:
+    image: openapitools/openapi-generator-cli
+    volumes:
+      - ../:/local
+    command: generate -g javascript -i local/xero-payroll-au.yaml -o local/generator/payroll-au-client
+
+  swagger-ui-payroll-au:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ../xero-payroll-au.yaml:/usr/share/nginx/html/xero-payroll-au.yaml
+    environment:
+      API_URL: xero-payroll-au.yaml
+    ports:
+      - "9001:8080"
+
+  #swagger-editor:
+  #  image: swaggerapi/swagger-editor
+  #  ports:
+  #    - "9002:8080"
